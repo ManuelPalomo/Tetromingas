@@ -5,16 +5,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.palomorising.TetroMingas;
+import com.palomorising.board.Board;
 
 
 public class TetroMingasGame implements Screen {
     final TetroMingas game;
     private OrthographicCamera camera;
 
+    private Board board;
+
     public TetroMingasGame(TetroMingas game){
         this.game=game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false,TetroMingas.WIDTH,TetroMingas.HEIGHT);
+
+        board = new Board();
     }
     @Override
     public void show() {
@@ -28,6 +33,7 @@ public class TetroMingasGame implements Screen {
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+        board.render(game.batch);
 
     }
 
