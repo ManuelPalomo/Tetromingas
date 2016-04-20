@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.palomorising.TetroMingas;
-import com.palomorising.utils.Utils;
+import com.palomorising.utils.TextSize;
 
 public class MainMenu implements Screen{
     final TetroMingas game;
@@ -35,10 +34,10 @@ public class MainMenu implements Screen{
 
         game.batch.begin();
 
-        float[] textSize = Utils.getTextSize(game.font,"TetroMingas");
-        game.font.draw(game.batch,"TetroMingas",TetroMingas.WIDTH/2-textSize[0]/2,TetroMingas.HEIGHT/2-textSize[1]/2);
-        textSize = Utils.getTextSize(game.font,"Pulsa para jugar");
-        game.font.draw(game.batch,"Pulsa para jugar",TetroMingas.WIDTH/2-textSize[0]/2,TetroMingas.HEIGHT/2-textSize[1]/2-30);
+        TextSize textSize = new TextSize(game.font,"TetroMingas");
+        game.font.draw(game.batch,"TetroMingas",TetroMingas.WIDTH/2-textSize.getWidth()/2,TetroMingas.HEIGHT/2-textSize.getHeight()/2);
+        textSize = new TextSize(game.font,"Pulsa para jugar");
+        game.font.draw(game.batch,"Pulsa para jugar",TetroMingas.WIDTH/2-textSize.getWidth()/2,TetroMingas.HEIGHT/2-textSize.getHeight()/2-30);
         game.batch.end();
 
         if(Gdx.input.isTouched()){
