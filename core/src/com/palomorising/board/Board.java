@@ -29,8 +29,6 @@ public class Board {
     }
 
     public void render(SpriteBatch batch) {
-
-
         batch.begin();
         renderBoard(batch);
         currentShape.renderShape(batch,cell);
@@ -57,7 +55,8 @@ public class Board {
     }
 
 
-    public void update(float deltaTime) {
+    public void update() {
+        currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(),currentShape.getUpperLeftCornerY()+1);
     }
 
     public void dispose(){

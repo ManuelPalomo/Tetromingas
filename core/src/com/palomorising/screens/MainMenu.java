@@ -43,7 +43,7 @@ public class MainMenu implements Screen{
 
         if(Gdx.input.isTouched()){
             game.setScreen(new TetroMingasGame(game));
-            dispose();
+            this.dispose();
         }
 
 

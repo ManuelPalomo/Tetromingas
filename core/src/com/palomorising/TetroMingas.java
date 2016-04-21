@@ -17,11 +17,6 @@ public class TetroMingas extends Game {
         this.setScreen(new MainMenu(this));
 	}
 
-	@Override
-	public void render () {
-		super.render();
-	}
-
     @Override
     public void dispose(){
         batch.dispose();

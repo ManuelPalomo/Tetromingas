@@ -12,16 +12,17 @@ import com.palomorising.utils.Constants;
 public class TetroMingasGame implements Screen {
     final TetroMingas game;
     private OrthographicCamera camera;
-
     private Board board;
+    private float timer;
 
-    public TetroMingasGame(TetroMingas game){
-        this.game=game;
+    public TetroMingasGame(TetroMingas game) {
+        this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Constants.WIDTH,Constants.HEIGHT);
+        camera.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
         board = new Board();
     }
+
     @Override
     public void show() {
 
@@ -29,12 +30,21 @@ public class TetroMingasGame implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0.2f,1);
+        timer += delta;
+
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
+
+        if (timer >= 0.5f) {
+            board.update();
+            timer -= 0.5f;
+        }
+
         board.render(game.batch);
+
 
     }
 
