@@ -29,10 +29,19 @@ public class Board {
     }
 
     public void render(SpriteBatch batch) {
+
+
+        batch.begin();
+        renderBoard(batch);
+        currentShape.renderShape(batch,cell);
+        batch.end();
+
+    }
+
+    private void renderBoard(SpriteBatch batch){
         int xPos = 0;
         int yPos = 0;
 
-        batch.begin();
         for (int[] x : grid){
             for (int y : x) {
                 if(y==1) {
@@ -45,26 +54,8 @@ public class Board {
             yPos+=Constants.CELL_HEIGHT;
             xPos=0;
         }
-        renderShape(batch);
-        batch.end();
-
     }
-    private void renderShape(SpriteBatch batch){
-        int xPos = currentShape.getUpperLeftCornerX()*Constants.CELL_WIDTH;
-        int yPos= Constants.HEIGHT-(currentShape.getUpperLeftCornerY()*Constants.CELL_HEIGHT);
 
-        for (int[] x : currentShape.getShape()) {
-            for (int y : x) {
-                if (y == 1) {
-                    batch.draw(cell, xPos, yPos);
-                }
-                xPos += Constants.CELL_WIDTH;
-            }
-            yPos-=Constants.CELL_HEIGHT;
-            xPos=currentShape.getUpperLeftCornerX()*Constants.CELL_WIDTH;;
-
-        }
-    }
 
     public void update(float deltaTime) {
     }

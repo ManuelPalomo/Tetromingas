@@ -1,6 +1,10 @@
 package com.palomorising.shapes;
 
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.palomorising.utils.Constants;
+
 import java.util.LinkedList;
 
 public class Shape {
@@ -41,4 +45,20 @@ public class Shape {
         this.upperLeftCornerY=upperLeftCornerY;
     }
 
+    public void renderShape(SpriteBatch batch,Texture cell){
+        int xPos = upperLeftCornerX* Constants.CELL_WIDTH;
+        int yPos= Constants.HEIGHT-(upperLeftCornerY*Constants.CELL_HEIGHT);
+
+        for (int[] x : shape) {
+            for (int y : x) {
+                if (y == 1) {
+                    batch.draw(cell, xPos, yPos);
+                }
+                xPos += Constants.CELL_WIDTH;
+            }
+            yPos-=Constants.CELL_HEIGHT;
+            xPos=upperLeftCornerX*Constants.CELL_WIDTH;
+
+        }
+    }
 }
