@@ -7,10 +7,12 @@ import com.palomorising.TetroMingas;
 public class Board {
     private int[][] grid;
     private Texture cell;
+    private Texture empty;
 
     public Board() {
         grid = new int[16][10];
         cell = new Texture("testCell.png");
+        empty= new Texture("emptyCell.png");
 
     }
 
@@ -21,10 +23,15 @@ public class Board {
         int xPos = 0;
         int yPos = 0;
 
+
         batch.begin();
         for (int[] x : grid){
             for (int y : x) {
-                batch.draw(cell,xPos,yPos);
+                if(y==1) {
+                    batch.draw(cell, xPos, yPos);
+                }else{
+                    batch.draw(empty,xPos,yPos);
+                }
                 xPos+=cellWidth;
             }
             yPos+=cellHeight;
