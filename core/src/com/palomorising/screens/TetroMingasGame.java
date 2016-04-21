@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.palomorising.TetroMingas;
 import com.palomorising.board.Board;
+import com.palomorising.utils.Constants;
 
 
 public class TetroMingasGame implements Screen {
@@ -17,7 +18,7 @@ public class TetroMingasGame implements Screen {
     public TetroMingasGame(TetroMingas game){
         this.game=game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,TetroMingas.WIDTH,TetroMingas.HEIGHT);
+        camera.setToOrtho(false, Constants.WIDTH,Constants.HEIGHT);
 
         board = new Board();
     }
@@ -59,6 +60,7 @@ public class TetroMingasGame implements Screen {
 
     @Override
     public void dispose() {
+        board.dispose();
 
     }
 }

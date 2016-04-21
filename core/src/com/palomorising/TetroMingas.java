@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.palomorising.screens.MainMenu;
 
 public class TetroMingas extends Game {
-	public static final int WIDTH=480;
-	public static final int HEIGHT=800;
     public SpriteBatch batch;
     public BitmapFont font;
 

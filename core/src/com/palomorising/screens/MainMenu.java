@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.palomorising.TetroMingas;
+import com.palomorising.utils.Constants;
 import com.palomorising.utils.TextSize;
 
 public class MainMenu implements Screen{
@@ -15,7 +16,7 @@ public class MainMenu implements Screen{
     public MainMenu(TetroMingas game){
         this.game=game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, TetroMingas.WIDTH,TetroMingas.HEIGHT);
+        camera.setToOrtho(false, Constants.WIDTH,Constants.HEIGHT);
 
     }
 
@@ -35,9 +36,9 @@ public class MainMenu implements Screen{
         game.batch.begin();
 
         TextSize textSize = new TextSize(game.font,"TetroMingas");
-        game.font.draw(game.batch,"TetroMingas",TetroMingas.WIDTH/2-textSize.getWidth()/2,TetroMingas.HEIGHT/2-textSize.getHeight()/2);
+        game.font.draw(game.batch,"TetroMingas",Constants.WIDTH/2-textSize.getWidth()/2,Constants.HEIGHT/2-textSize.getHeight()/2);
         textSize = new TextSize(game.font,"Pulsa para jugar");
-        game.font.draw(game.batch,"Pulsa para jugar",TetroMingas.WIDTH/2-textSize.getWidth()/2,TetroMingas.HEIGHT/2-textSize.getHeight()/2-30);
+        game.font.draw(game.batch,"Pulsa para jugar",Constants.WIDTH/2-textSize.getWidth()/2,Constants.HEIGHT/2-textSize.getHeight()/2-30);
         game.batch.end();
 
         if(Gdx.input.isTouched()){

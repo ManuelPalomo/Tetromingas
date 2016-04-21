@@ -1,24 +1,37 @@
 package com.palomorising.board;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.palomorising.TetroMingas;
+import com.badlogic.gdx.math.Matrix4;
+import com.palomorising.shapes.Shape;
+import com.palomorising.shapes.ShapeFactory;
+import com.palomorising.utils.Constants;
 
 public class Board {
     private int[][] grid;
+
+    private ShapeFactory shapeFactory;
+    private Shape currentShape;
+
     private Texture cell;
     private Texture empty;
 
+
     public Board() {
         grid = new int[16][10];
+
+        shapeFactory = new ShapeFactory();
+        currentShape = shapeFactory.getShape();
+
         cell = new Texture("testCell.png");
         empty= new Texture("emptyCell.png");
+
 
     }
 
     public void render(SpriteBatch batch) {
-        int cellHeight = TetroMingas.HEIGHT / 16;
-        int cellWidth = TetroMingas.WIDTH / 10;
+
 
         int xPos = 0;
         int yPos = 0;
@@ -32,18 +45,39 @@ public class Board {
                 }else{
                     batch.draw(empty,xPos,yPos);
                 }
-                xPos+=cellWidth;
+                xPos+=Constants.CELL_WIDTH;
             }
-            yPos+=cellHeight;
+            yPos+=Constants.CELL_HEIGHT;
             xPos=0;
         }
+        renderShape(batch);
         batch.end();
 
+    }
+    private void renderShape(SpriteBatch batch){
+        int xPos = currentShape.getUpperLeftCornerX()*Constants.CELL_WIDTH;
+        int yPos= Constants.HEIGHT-(currentShape.getUpperLeftCornerY()*Constants.CELL_HEIGHT);
+        System.out.println("Initial"+yPos);
 
+        for (int[] x : currentShape.getShape()) {
+            for (int y : x) {
+                if (y == 1) {
+                    batch.draw(cell, xPos, yPos);
+                }
+                xPos += Constants.CELL_WIDTH;
+            }
+            yPos-=Constants.CELL_HEIGHT;
+            xPos=currentShape.getUpperLeftCornerX()*Constants.CELL_WIDTH;;
+
+        }
     }
 
     public void update(float deltaTime) {
     }
 
+    public void dispose(){
+        cell.dispose();
+        empty.dispose();
+    }
 
 }
