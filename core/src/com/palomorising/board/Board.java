@@ -80,6 +80,25 @@ public class Board {
         return false;
     }
 
+    private boolean isGoingToCollideMovement(int xIncrement) {
+        int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX()+xIncrement;
+        int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY();
+
+        int[][] shape = currentShape.getShape();
+
+        for (int x = 0; x < shape.length; x++) {
+            for (int y = 0; y < shape[x].length; y++) {
+                if (shape[x][y] == 1) {
+                    if (nextUpperLeftCornerX+y<0 || nextUpperLeftCornerX+y>=grid[0].length || grid[nextUpperLeftCornerY-x][nextUpperLeftCornerX+y]==1) {
+                        return true;
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private void addCurrentPieceToBoard(){
         int[][] shape = currentShape.getShape();
 
@@ -90,6 +109,24 @@ public class Board {
 
                 }
             }
+        }
+    }
+
+    public void moveRight(){
+        if(!isGoingToCollideMovement(1)){
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX()+1,currentShape.getUpperLeftCornerY());
+        }
+    }
+
+    public void moveLeft(){
+        if(!isGoingToCollideMovement(-1)){
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX()-1,currentShape.getUpperLeftCornerY());
+        }
+    }
+
+    public void moveDown(){
+        if(!isGoingToCollide()){
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(),currentShape.getUpperLeftCornerY()-1);
         }
     }
 

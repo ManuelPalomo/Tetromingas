@@ -1,6 +1,7 @@
 package com.palomorising.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -38,6 +39,7 @@ public class TetroMingasGame implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
+         handleInput();
         if (timer >= 0.5f) {
             board.update();
             timer -= 0.5f;
@@ -45,6 +47,20 @@ public class TetroMingasGame implements Screen {
 
         board.render(game.batch);
 
+    }
+
+    private void handleInput(){
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+            board.moveRight();
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+            board.moveLeft();
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            board.moveDown();
+        }
 
     }
 
