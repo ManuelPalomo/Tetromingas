@@ -2,6 +2,7 @@ package com.palomorising.board;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.palomorising.shapes.Shape;
 import com.palomorising.shapes.ShapeFactory;
 import com.palomorising.utils.Constants;
@@ -23,7 +24,7 @@ public class Board {
         currentShape = shapeFactory.getShape();
 
         cell = new Texture("testCell.png");
-        empty= new Texture("emptyCell.png");
+        empty = new Texture("emptyCell.png");
 
 
     }
@@ -31,35 +32,70 @@ public class Board {
     public void render(SpriteBatch batch) {
         batch.begin();
         renderBoard(batch);
-        currentShape.renderShape(batch,cell);
+        currentShape.renderShape(batch, cell);
         batch.end();
 
     }
 
-    private void renderBoard(SpriteBatch batch){
-        int xPos = 0;
-        int yPos = 0;
-
-        for (int[] x : grid){
-            for (int y : x) {
-                if(y==1) {
-                    batch.draw(cell, xPos, yPos);
-                }else{
-                    batch.draw(empty,xPos,yPos);
+    private void renderBoard(SpriteBatch batch) {
+        
+        for (int x=0;x<grid.length;x++) {
+            for (int y=0;y<grid[x].length;y++) {
+                if (grid[x][y]==1) {
+                    batch.draw(cell, y*Constants.CELL_WIDTH, x*Constants.CELL_HEIGHT);
+                } else {
+                    batch.draw(empty,y*Constants.CELL_WIDTH, x*Constants.CELL_HEIGHT);
                 }
-                xPos+=Constants.CELL_WIDTH;
+
             }
-            yPos+=Constants.CELL_HEIGHT;
-            xPos=0;
+
+
         }
     }
 
 
     public void update() {
-        currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(),currentShape.getUpperLeftCornerY()+1);
+        System.out.println(isGoingToCollide());
+        if(!isGoingToCollide()) {
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() + 1);
+        }else{
+            addCurrentPieceToBoard();
+            currentShape=shapeFactory.getShape();
+        }
     }
 
-    public void dispose(){
+    private boolean isGoingToCollide() {
+        int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX();
+        int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY() + 1;
+
+        int[][] shape = currentShape.getShape();
+
+        for (int x = 0; x < shape.length; x++) {
+            for (int y = 0; y < shape[x].length; y++) {
+                if (shape[x][y] == 1) {
+                    if (nextUpperLeftCornerY-y >= grid.length || grid[nextUpperLeftCornerY-y][nextUpperLeftCornerX+x]==1) {
+                        return true;
+
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private void addCurrentPieceToBoard(){
+        int[][] shape = currentShape.getShape();
+
+        for (int x = 0; x < shape.length; x++) {
+            for (int y = 0; y < shape[x].length; y++) {
+                if(shape[x][y]==1){
+                    grid[currentShape.getUpperLeftCornerY()-y][currentShape.getUpperLeftCornerX()+x]=1;
+                }
+            }
+        }
+    }
+
+    public void dispose() {
         cell.dispose();
         empty.dispose();
     }
