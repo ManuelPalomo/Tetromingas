@@ -46,19 +46,19 @@ public class Shape {
     }
 
     public void renderShape(SpriteBatch batch,Texture cell){
-        int xPos = upperLeftCornerX* Constants.CELL_WIDTH;
-        int yPos= Constants.HEIGHT-(upperLeftCornerY*Constants.CELL_HEIGHT);
+        int xPos=upperLeftCornerX*Constants.CELL_WIDTH;
+        int yPos=upperLeftCornerY*Constants.CELL_HEIGHT;
 
-        for (int[] x : shape) {
-            for (int y : x) {
-                if (y == 1) {
-                    batch.draw(cell, xPos, yPos);
+        for(int x=0;x<shape.length;x++){
+            for(int y=0;y<shape[x].length;y++){
+                if(shape[x][y]==1){
+                    batch.draw(cell,xPos,yPos);
                 }
-                xPos += Constants.CELL_WIDTH;
+                xPos+=Constants.CELL_WIDTH;
             }
             yPos-=Constants.CELL_HEIGHT;
             xPos=upperLeftCornerX*Constants.CELL_WIDTH;
-
         }
     }
+
 }

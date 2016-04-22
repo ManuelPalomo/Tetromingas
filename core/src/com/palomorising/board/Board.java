@@ -2,7 +2,6 @@ package com.palomorising.board;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 import com.palomorising.shapes.Shape;
 import com.palomorising.shapes.ShapeFactory;
 import com.palomorising.utils.Constants;
@@ -38,13 +37,12 @@ public class Board {
     }
 
     private void renderBoard(SpriteBatch batch) {
-        
-        for (int x=0;x<grid.length;x++) {
-            for (int y=0;y<grid[x].length;y++) {
-                if (grid[x][y]==1) {
-                    batch.draw(cell, y*Constants.CELL_WIDTH, x*Constants.CELL_HEIGHT);
+        for (int x = 0; x < grid.length; x++) {
+            for (int y = 0; y < grid[x].length; y++) {
+                if (grid[x][y] == 1) {
+                    batch.draw(cell, y * Constants.CELL_WIDTH, x* Constants.CELL_HEIGHT);
                 } else {
-                    batch.draw(empty,y*Constants.CELL_WIDTH, x*Constants.CELL_HEIGHT);
+                    batch.draw(empty, y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 }
 
             }
@@ -53,11 +51,10 @@ public class Board {
         }
     }
 
-
     public void update() {
         System.out.println(isGoingToCollide());
         if(!isGoingToCollide()) {
-            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() + 1);
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
         }else{
             addCurrentPieceToBoard();
             currentShape=shapeFactory.getShape();
@@ -66,14 +63,14 @@ public class Board {
 
     private boolean isGoingToCollide() {
         int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX();
-        int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY() + 1;
+        int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY() - 1;
 
         int[][] shape = currentShape.getShape();
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
                 if (shape[x][y] == 1) {
-                    if (nextUpperLeftCornerY-y >= grid.length || grid[nextUpperLeftCornerY-y][nextUpperLeftCornerX+x]==1) {
+                    if (nextUpperLeftCornerY-x<0 || grid[nextUpperLeftCornerY-x][nextUpperLeftCornerX+y]==1) {
                         return true;
 
                     }
@@ -89,7 +86,8 @@ public class Board {
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
                 if(shape[x][y]==1){
-                    grid[currentShape.getUpperLeftCornerY()-y][currentShape.getUpperLeftCornerX()+x]=1;
+                    grid[currentShape.getUpperLeftCornerY()-x][currentShape.getUpperLeftCornerX()+y]=1;
+
                 }
             }
         }

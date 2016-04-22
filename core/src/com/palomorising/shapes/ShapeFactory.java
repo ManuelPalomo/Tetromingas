@@ -15,7 +15,7 @@ public class ShapeFactory {
     }
 
     public Shape getShape(){
-        return new Shape(4,1, shapes.get(MathUtils.random(0,shapes.size()-1)),null);
+        return new Shape(4,15, shapes.get(MathUtils.random(0,shapes.size()-1)),null);
     }
 
     private ArrayList<int[][]> fillShapes() {
