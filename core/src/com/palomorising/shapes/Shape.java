@@ -23,11 +23,11 @@ public class Shape {
     }
 
     public int[][] getNextTurnShape() {
-        actualTurnShape++;
-        if (actualTurnShape > turnShapes.size()-1) {
-            actualTurnShape = 0;
+        int nextShape=actualTurnShape+1;
+        if (nextShape > turnShapes.size()-1) {
+            nextShape = 0;
         }
-        return turnShapes.get(actualTurnShape);
+        return turnShapes.get(nextShape);
     }
 
     public int getUpperLeftCornerX() {
@@ -63,8 +63,12 @@ public class Shape {
         }
     }
 
-    public void setShape(int[][] shape) {
-        this.shape = shape;
+    public void setNextShape() {
+        actualTurnShape++;
+        if (actualTurnShape > turnShapes.size()-1) {
+            actualTurnShape = 0;
+        }
+        this.shape=turnShapes.get(actualTurnShape);
     }
 
 }

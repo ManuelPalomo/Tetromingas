@@ -99,6 +99,24 @@ public class Board {
         return false;
     }
 
+    private boolean isGoingToCollideRotation(){
+        int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX();
+        int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY();
+
+        int[][] shape = currentShape.getNextTurnShape();
+
+        for (int x = 0; x < shape.length; x++) {
+            for (int y = 0; y < shape[x].length; y++) {
+                if (shape[x][y] == 1) {
+                    if (nextUpperLeftCornerX + y < 0 || nextUpperLeftCornerX + y >= grid[0].length || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] == 1) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     private void addCurrentPieceToBoard(){
         int[][] shape = currentShape.getShape();
 
@@ -131,7 +149,9 @@ public class Board {
     }
 
     public void rotateShape(){
-        currentShape.setShape(currentShape.getNextTurnShape());
+        if(!isGoingToCollideRotation()) {
+            currentShape.setNextShape();
+        }
     }
 
     public void dispose() {
