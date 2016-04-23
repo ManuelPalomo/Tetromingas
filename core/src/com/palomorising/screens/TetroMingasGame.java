@@ -14,7 +14,8 @@ public class TetroMingasGame implements Screen {
     final TetroMingas game;
     private OrthographicCamera camera;
     private Board board;
-    private float timer;
+    private float updateTimer;
+    private float inputTimer;
 
     public TetroMingasGame(TetroMingas game) {
         this.game = game;
@@ -31,7 +32,8 @@ public class TetroMingasGame implements Screen {
 
     @Override
     public void render(float delta) {
-        timer += delta;
+        updateTimer += delta;
+        inputTimer += delta;
 
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -39,10 +41,13 @@ public class TetroMingasGame implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-         handleInput();
-        if (timer >= 0.5f) {
+        if(inputTimer >=0.1f){
+            handleInput();
+            inputTimer-=0.1f;
+        }
+        if (updateTimer >= 0.5f) {
             board.update();
-            timer -= 0.5f;
+            updateTimer -= 0.5f;
         }
 
         board.render(game.batch);
