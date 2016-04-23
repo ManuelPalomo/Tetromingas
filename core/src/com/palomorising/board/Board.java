@@ -130,6 +130,10 @@ public class Board {
         }
     }
 
+    public void rotateShape(){
+        currentShape.setShape(currentShape.getNextTurnShape());
+    }
+
     public void dispose() {
         cell.dispose();
         empty.dispose();

@@ -62,6 +62,10 @@ public class TetroMingasGame implements Screen {
             board.moveDown();
         }
 
+        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
+            board.rotateShape();
+        }
+
     }
 
     @Override

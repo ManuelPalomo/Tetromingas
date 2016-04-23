@@ -14,51 +14,57 @@ public class Shape {
     private LinkedList<int[][]> turnShapes;
     private int actualTurnShape;
 
-    public Shape(int upperLeftCornerX,int upperLeftCornerY,int[][] shape,LinkedList<int[][]> turnShapes){
-        this.upperLeftCornerX=upperLeftCornerX;
-        this.upperLeftCornerY=upperLeftCornerY;
-        this.shape=shape;
-        this.turnShapes=turnShapes;
-        this.actualTurnShape=0;
+    public Shape(int upperLeftCornerX, int upperLeftCornerY, int[][] shape, LinkedList<int[][]> turnShapes) {
+        this.upperLeftCornerX = upperLeftCornerX;
+        this.upperLeftCornerY = upperLeftCornerY;
+        this.shape = shape;
+        this.turnShapes = turnShapes;
+        this.actualTurnShape = 0;
     }
 
-    public int[][] getNextTurnShape(){
-        if(actualTurnShape+1>turnShapes.size()){
-            actualTurnShape=0;
+    public int[][] getNextTurnShape() {
+        actualTurnShape++;
+        if (actualTurnShape > turnShapes.size()-1) {
+            actualTurnShape = 0;
         }
         return turnShapes.get(actualTurnShape);
     }
 
-    public int getUpperLeftCornerX(){
+    public int getUpperLeftCornerX() {
         return upperLeftCornerX;
     }
 
-    public int getUpperLeftCornerY(){
+    public int getUpperLeftCornerY() {
         return upperLeftCornerY;
     }
 
-    public int[][] getShape(){
+    public int[][] getShape() {
         return shape;
     }
-    public void updateLeftCorner(int upperLeftCornerX,int upperLeftCornerY){
-        this.upperLeftCornerX=upperLeftCornerX;
-        this.upperLeftCornerY=upperLeftCornerY;
+
+    public void updateLeftCorner(int upperLeftCornerX, int upperLeftCornerY) {
+        this.upperLeftCornerX = upperLeftCornerX;
+        this.upperLeftCornerY = upperLeftCornerY;
     }
 
-    public void renderShape(SpriteBatch batch,Texture cell){
-        int xPos=upperLeftCornerX*Constants.CELL_WIDTH;
-        int yPos=upperLeftCornerY*Constants.CELL_HEIGHT;
+    public void renderShape(SpriteBatch batch, Texture cell) {
+        int xPos = upperLeftCornerX * Constants.CELL_WIDTH;
+        int yPos = upperLeftCornerY * Constants.CELL_HEIGHT;
 
-        for(int x=0;x<shape.length;x++){
-            for(int y=0;y<shape[x].length;y++){
-                if(shape[x][y]==1){
-                    batch.draw(cell,xPos,yPos);
+        for (int x = 0; x < shape.length; x++) {
+            for (int y = 0; y < shape[x].length; y++) {
+                if (shape[x][y] == 1) {
+                    batch.draw(cell, xPos, yPos);
                 }
-                xPos+=Constants.CELL_WIDTH;
+                xPos += Constants.CELL_WIDTH;
             }
-            yPos-=Constants.CELL_HEIGHT;
-            xPos=upperLeftCornerX*Constants.CELL_WIDTH;
+            yPos -= Constants.CELL_HEIGHT;
+            xPos = upperLeftCornerX * Constants.CELL_WIDTH;
         }
+    }
+
+    public void setShape(int[][] shape) {
+        this.shape = shape;
     }
 
 }
