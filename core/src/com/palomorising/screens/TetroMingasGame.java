@@ -22,7 +22,7 @@ public class TetroMingasGame extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
-        board = new Board();
+        board = new Board(this);
 
         inputHandler = new GameInputHandler(board);
         Gdx.input.setInputProcessor(inputHandler);
@@ -49,6 +49,10 @@ public class TetroMingasGame extends ScreenAdapter {
 
     }
 
+    public void endScreen(){
+        game.setScreen(new EndScreen(game));
+        this.dispose();
+    }
 
     @Override
     public void dispose() {

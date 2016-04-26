@@ -2,6 +2,7 @@ package com.palomorising.board;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.palomorising.screens.TetroMingasGame;
 import com.palomorising.shapes.Shape;
 import com.palomorising.shapes.ShapeFactory;
 import com.palomorising.utils.Constants;
@@ -12,15 +13,19 @@ public class Board {
     private ShapeFactory shapeFactory;
     private Shape currentShape;
 
+    private TetroMingasGame game;
+
     private Texture cell;
     private Texture empty;
 
 
-    public Board() {
+    public Board(TetroMingasGame game) {
         grid = new int[16][10];
 
         shapeFactory = new ShapeFactory();
         currentShape = shapeFactory.getShape();
+
+        this.game = game;
 
         cell = new Texture("testCell.png");
         empty = new Texture("emptyCell.png");
@@ -52,12 +57,15 @@ public class Board {
     }
 
     public void update() {
-        System.out.println(isGoingToCollide());
         if(!isGoingToCollide()) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
         }else{
             addCurrentPieceToBoard();
             checkFilledLines();
+            if(isGameLost()){
+                game.endScreen();
+                this.dispose();
+            }
             currentShape=shapeFactory.getShape();
         }
     }
@@ -118,6 +126,15 @@ public class Board {
         }
         grid[grid.length-1] = new int[grid[x].length];
 
+    }
+
+    private boolean isGameLost(){
+        for(int x=0; x<grid[15].length;x++){
+            if(grid[15][x]==1){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isGoingToCollideMovement(int xIncrement) {

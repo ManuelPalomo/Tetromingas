@@ -1,14 +1,14 @@
 package com.palomorising.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.palomorising.TetroMingas;
 import com.palomorising.utils.Constants;
 import com.palomorising.utils.TextSize;
 
-public class MainMenu implements Screen{
+public class MainMenu extends ScreenAdapter {
     final TetroMingas game;
     private OrthographicCamera camera;
 
@@ -17,11 +17,6 @@ public class MainMenu implements Screen{
         this.game=game;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.WIDTH,Constants.HEIGHT);
-
-    }
-
-    @Override
-    public void show() {
 
     }
 
@@ -43,36 +38,7 @@ public class MainMenu implements Screen{
 
         if(Gdx.input.isTouched()){
             game.setScreen(new TetroMingasGame(game));
-            this.dispose();
         }
-
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-
 
     }
 }
