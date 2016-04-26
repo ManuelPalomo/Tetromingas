@@ -57,6 +57,7 @@ public class Board {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
         }else{
             addCurrentPieceToBoard();
+            checkFilledLines();
             currentShape=shapeFactory.getShape();
         }
     }
@@ -78,6 +79,45 @@ public class Board {
             }
         }
         return false;
+    }
+
+    private void addCurrentPieceToBoard(){
+        int[][] shape = currentShape.getShape();
+
+        for (int x = 0; x < shape.length; x++) {
+            for (int y = 0; y < shape[x].length; y++) {
+                if(shape[x][y]==1){
+                    grid[currentShape.getUpperLeftCornerY()-x][currentShape.getUpperLeftCornerX()+y]=1;
+
+                }
+            }
+        }
+    }
+
+    private void checkFilledLines(){
+        for(int x=0;x<grid.length;x++){
+            boolean isFilled=true;
+            for(int y=0;y<grid[x].length;y++){
+                if(grid[x][y]==0){
+                    isFilled=false;
+                    break;
+                }
+            }
+
+            if(isFilled){
+                removeFilledLine(x);
+                checkFilledLines();
+            }
+        }
+
+    }
+
+    private void removeFilledLine(int x){
+        for(int lines=x;lines<grid.length-1;lines++){
+            grid[lines]=grid[lines+1];
+        }
+        grid[grid.length-1] = new int[grid[x].length];
+
     }
 
     private boolean isGoingToCollideMovement(int xIncrement) {
@@ -117,18 +157,7 @@ public class Board {
         return false;
     }
 
-    private void addCurrentPieceToBoard(){
-        int[][] shape = currentShape.getShape();
 
-        for (int x = 0; x < shape.length; x++) {
-            for (int y = 0; y < shape[x].length; y++) {
-                if(shape[x][y]==1){
-                    grid[currentShape.getUpperLeftCornerY()-x][currentShape.getUpperLeftCornerX()+y]=1;
-
-                }
-            }
-        }
-    }
 
     public void moveRight(){
         if(!isGoingToCollideMovement(1)){
