@@ -1,5 +1,7 @@
 package com.palomorising.board;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.palomorising.TetroMingas;
@@ -20,6 +22,8 @@ public class Board {
     private Texture cell;
     private Texture empty;
 
+    private Sound movement;
+    private Sound  removeLine;
     public int score;
     public int lines;
 
@@ -35,6 +39,9 @@ public class Board {
 
         cell = new Texture("testCell.png");
         empty = new Texture("emptyCell.png");
+
+        movement = Gdx.audio.newSound(Gdx.files.internal("movement.mp3"));
+        removeLine = Gdx.audio.newSound(Gdx.files.internal("removeLine.mp3"));
 
         score = 0;
         lines = 0;
@@ -72,6 +79,7 @@ public class Board {
     public void update() {
         if (!isGoingToCollide()) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
+            movement.play();
         } else {
             addCurrentPieceToBoard();
             checkFilledLines();
@@ -135,6 +143,7 @@ public class Board {
     }
 
     private void removeFilledLine(int x) {
+        removeLine.play();
         for (int lines = x; lines < grid.length - 1; lines++) {
             grid[lines] = grid[lines + 1];
         }
@@ -208,24 +217,28 @@ public class Board {
     public void moveRight() {
         if (!isGoingToCollideMovement(1)) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX() + 1, currentShape.getUpperLeftCornerY());
+            movement.play();
         }
     }
 
     public void moveLeft() {
         if (!isGoingToCollideMovement(-1)) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX() - 1, currentShape.getUpperLeftCornerY());
+            movement.play();
         }
     }
 
     public void moveDown() {
         if (!isGoingToCollide()) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
+            movement.play();
             score++;
         }
     }
 
     public void rotateShape() {
         if (!isGoingToCollideRotation()) {
+            movement.play();
             currentShape.setNextShape();
         }
     }
@@ -233,6 +246,8 @@ public class Board {
     public void dispose() {
         cell.dispose();
         empty.dispose();
+        movement.dispose();
+        removeLine.dispose();
     }
 
 }
