@@ -3,6 +3,7 @@ package com.palomorising.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.palomorising.TetroMingas;
 import com.palomorising.utils.Constants;
 import com.palomorising.utils.TextSize;
@@ -13,10 +14,14 @@ public class EndScreen extends ScreenAdapter {
     private int score;
     private int lines;
 
+    private Texture background;
+
     public EndScreen(TetroMingas game, int score, int lines) {
         this.game = game;
         this.score = score;
         this.lines = lines;
+
+        background = new Texture("gameOver.png");
 
     }
 
@@ -25,15 +30,20 @@ public class EndScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-
-        TextSize textSize = new TextSize(game.font, "You just lost the game");
-        game.font.draw(game.batch, "You just lost the game", Constants.WIDTH / 2 - textSize.getWidth() / 2, Constants.HEIGHT / 2 - textSize.getHeight() / 2);
+        TextSize textSize = new TextSize(game.font,"Score");
+        game.batch.draw(background,0,0);
         game.font.draw(game.batch, "Score: " + score, Constants.WIDTH / 2 - textSize.getWidth() / 2, (Constants.HEIGHT / 2 - textSize.getHeight() / 2) - 20);
         game.font.draw(game.batch, "Lines Cleared: " + lines, Constants.WIDTH / 2 - textSize.getWidth() / 2, (Constants.HEIGHT / 2 - textSize.getHeight() / 2) - 40);
         game.batch.end();
 
         if (Gdx.input.isTouched()) {
             game.setScreen(new MainMenu(game));
+            this.dispose();
         }
+    }
+
+    @Override
+    public void dispose(){
+        background.dispose();
     }
 }
