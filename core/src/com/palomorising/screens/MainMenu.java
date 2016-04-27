@@ -13,16 +13,16 @@ public class MainMenu extends ScreenAdapter {
     private OrthographicCamera camera;
 
 
-    public MainMenu(TetroMingas game){
-        this.game=game;
+    public MainMenu(TetroMingas game) {
+        this.game = game;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Constants.WIDTH,Constants.HEIGHT);
+        camera.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0,0,0.2f,1);
+        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.update();
@@ -30,13 +30,13 @@ public class MainMenu extends ScreenAdapter {
 
         game.batch.begin();
 
-        TextSize textSize = new TextSize(game.font,"TetroMingas");
-        game.font.draw(game.batch,"TetroMingas",Constants.WIDTH/2-textSize.getWidth()/2,Constants.HEIGHT/2-textSize.getHeight()/2);
-        textSize = new TextSize(game.font,"Pulsa para jugar");
-        game.font.draw(game.batch,"Pulsa para jugar",Constants.WIDTH/2-textSize.getWidth()/2,Constants.HEIGHT/2-textSize.getHeight()/2-30);
+        TextSize textSize = new TextSize(game.font, "TetroMingas");
+        game.font.draw(game.batch, "TetroMingas", Constants.WIDTH / 2 - textSize.getWidth() / 2, Constants.HEIGHT / 2 - textSize.getHeight() / 2);
+        textSize = new TextSize(game.font, "Pulsa para jugar");
+        game.font.draw(game.batch, "Pulsa para jugar", Constants.WIDTH / 2 - textSize.getWidth() / 2, Constants.HEIGHT / 2 - textSize.getHeight() / 2 - 30);
         game.batch.end();
 
-        if(Gdx.input.isTouched()){
+        if (Gdx.input.isTouched()) {
             game.setScreen(new TetroMingasGame(game));
         }
 

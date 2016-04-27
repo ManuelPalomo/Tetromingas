@@ -2,6 +2,7 @@ package com.palomorising.board;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.palomorising.TetroMingas;
 import com.palomorising.screens.TetroMingasGame;
 import com.palomorising.shapes.Shape;
 import com.palomorising.shapes.ShapeFactory;
@@ -13,22 +14,30 @@ public class Board {
     private ShapeFactory shapeFactory;
     private Shape currentShape;
 
-    private TetroMingasGame game;
+    private TetroMingasGame screen;
+    private TetroMingas game;
 
     private Texture cell;
     private Texture empty;
 
+    public int score;
+    public int lines;
 
-    public Board(TetroMingasGame game) {
+
+    public Board(TetroMingasGame screen, TetroMingas game) {
         grid = new int[16][10];
 
         shapeFactory = new ShapeFactory();
         currentShape = shapeFactory.getShape();
 
+        this.screen = screen;
         this.game = game;
 
         cell = new Texture("testCell.png");
         empty = new Texture("emptyCell.png");
+
+        score = 0;
+        lines = 0;
 
 
     }
@@ -37,7 +46,11 @@ public class Board {
         batch.begin();
         renderBoard(batch);
         currentShape.renderShape(batch, cell);
+        game.font.draw(game.batch, "Score: " + score, Constants.WIDTH - 100, Constants.HEIGHT - 10);
+        game.font.draw(game.batch, "Lines: " + lines, Constants.WIDTH - 100, Constants.HEIGHT - 30);
+
         batch.end();
+
 
     }
 
@@ -45,7 +58,7 @@ public class Board {
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
                 if (grid[x][y] == 1) {
-                    batch.draw(cell, y * Constants.CELL_WIDTH, x* Constants.CELL_HEIGHT);
+                    batch.draw(cell, y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 } else {
                     batch.draw(empty, y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 }
@@ -57,16 +70,17 @@ public class Board {
     }
 
     public void update() {
-        if(!isGoingToCollide()) {
+        if (!isGoingToCollide()) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
-        }else{
+        } else {
             addCurrentPieceToBoard();
             checkFilledLines();
-            if(isGameLost()){
-                game.endScreen();
+            increaseLevel();
+            if (isGameLost()) {
+                screen.endScreen(score,lines);
                 this.dispose();
             }
-            currentShape=shapeFactory.getShape();
+            currentShape = shapeFactory.getShape();
         }
     }
 
@@ -79,7 +93,7 @@ public class Board {
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
                 if (shape[x][y] == 1) {
-                    if (nextUpperLeftCornerY-x<0 || grid[nextUpperLeftCornerY-x][nextUpperLeftCornerX+y]==1) {
+                    if (nextUpperLeftCornerY - x < 0 || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] == 1) {
                         return true;
 
                     }
@@ -89,30 +103,30 @@ public class Board {
         return false;
     }
 
-    private void addCurrentPieceToBoard(){
+    private void addCurrentPieceToBoard() {
         int[][] shape = currentShape.getShape();
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
-                if(shape[x][y]==1){
-                    grid[currentShape.getUpperLeftCornerY()-x][currentShape.getUpperLeftCornerX()+y]=1;
+                if (shape[x][y] == 1) {
+                    grid[currentShape.getUpperLeftCornerY() - x][currentShape.getUpperLeftCornerX() + y] = 1;
 
                 }
             }
         }
     }
 
-    private void checkFilledLines(){
-        for(int x=0;x<grid.length;x++){
-            boolean isFilled=true;
-            for(int y=0;y<grid[x].length;y++){
-                if(grid[x][y]==0){
-                    isFilled=false;
+    private void checkFilledLines() {
+        for (int x = 0; x < grid.length; x++) {
+            boolean isFilled = true;
+            for (int y = 0; y < grid[x].length; y++) {
+                if (grid[x][y] == 0) {
+                    isFilled = false;
                     break;
                 }
             }
 
-            if(isFilled){
+            if (isFilled) {
                 removeFilledLine(x);
                 checkFilledLines();
             }
@@ -120,17 +134,33 @@ public class Board {
 
     }
 
-    private void removeFilledLine(int x){
-        for(int lines=x;lines<grid.length-1;lines++){
-            grid[lines]=grid[lines+1];
+    private void removeFilledLine(int x) {
+        for (int lines = x; lines < grid.length - 1; lines++) {
+            grid[lines] = grid[lines + 1];
         }
-        grid[grid.length-1] = new int[grid[x].length];
+        grid[grid.length - 1] = new int[grid[x].length];
+        score += 40;
+        lines++;
 
     }
 
-    private boolean isGameLost(){
-        for(int x=0; x<grid[15].length;x++){
-            if(grid[15][x]==1){
+    private void increaseLevel() {
+
+        if(score>50 && score < 500){
+            screen.setUpdateTimerLimit(0.38f);
+        }
+        if(score>500 && score < 5000){
+            screen.setUpdateTimerLimit(0.3f);
+        }
+        if(score>5000){
+            screen.setUpdateTimerLimit(0.22f);
+        }
+
+    }
+
+    private boolean isGameLost() {
+        for (int x = 0; x < grid[15].length; x++) {
+            if (grid[15][x] == 1) {
                 return true;
             }
         }
@@ -138,7 +168,7 @@ public class Board {
     }
 
     private boolean isGoingToCollideMovement(int xIncrement) {
-        int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX()+xIncrement;
+        int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX() + xIncrement;
         int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY();
 
         int[][] shape = currentShape.getShape();
@@ -146,7 +176,7 @@ public class Board {
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
                 if (shape[x][y] == 1) {
-                    if (nextUpperLeftCornerX+y<0 || nextUpperLeftCornerX+y>=grid[0].length || grid[nextUpperLeftCornerY-x][nextUpperLeftCornerX+y]==1) {
+                    if (nextUpperLeftCornerX + y < 0 || nextUpperLeftCornerX + y >= grid[0].length || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] == 1) {
                         return true;
 
                     }
@@ -156,7 +186,7 @@ public class Board {
         return false;
     }
 
-    private boolean isGoingToCollideRotation(){
+    private boolean isGoingToCollideRotation() {
         int nextUpperLeftCornerX = currentShape.getUpperLeftCornerX();
         int nextUpperLeftCornerY = currentShape.getUpperLeftCornerY();
 
@@ -175,27 +205,27 @@ public class Board {
     }
 
 
-
-    public void moveRight(){
-        if(!isGoingToCollideMovement(1)){
-            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX()+1,currentShape.getUpperLeftCornerY());
+    public void moveRight() {
+        if (!isGoingToCollideMovement(1)) {
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX() + 1, currentShape.getUpperLeftCornerY());
         }
     }
 
-    public void moveLeft(){
-        if(!isGoingToCollideMovement(-1)){
-            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX()-1,currentShape.getUpperLeftCornerY());
+    public void moveLeft() {
+        if (!isGoingToCollideMovement(-1)) {
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX() - 1, currentShape.getUpperLeftCornerY());
         }
     }
 
-    public void moveDown(){
-        if(!isGoingToCollide()){
-            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(),currentShape.getUpperLeftCornerY()-1);
+    public void moveDown() {
+        if (!isGoingToCollide()) {
+            currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
+            score++;
         }
     }
 
-    public void rotateShape(){
-        if(!isGoingToCollideRotation()) {
+    public void rotateShape() {
+        if (!isGoingToCollideRotation()) {
             currentShape.setNextShape();
         }
     }

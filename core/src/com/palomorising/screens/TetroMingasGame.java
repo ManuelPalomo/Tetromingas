@@ -14,7 +14,10 @@ public class TetroMingasGame extends ScreenAdapter {
     final TetroMingas game;
     private OrthographicCamera camera;
     private Board board;
+
     private float updateTimer;
+    private float updateTimerLimit;
+
     private GameInputHandler inputHandler;
 
     public TetroMingasGame(TetroMingas game) {
@@ -22,12 +25,13 @@ public class TetroMingasGame extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.WIDTH, Constants.HEIGHT);
 
-        board = new Board(this);
+        board = new Board(this, game);
+
+        updateTimerLimit=0.5f;
 
         inputHandler = new GameInputHandler(board);
         Gdx.input.setInputProcessor(inputHandler);
     }
-
 
 
     @Override
@@ -40,17 +44,17 @@ public class TetroMingasGame extends ScreenAdapter {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
 
-        if (updateTimer >= 0.5f) {
+        if (updateTimer >= updateTimerLimit) {
             board.update();
-            updateTimer -= 0.5f;
+            updateTimer -= updateTimerLimit;
         }
 
         board.render(game.batch);
 
     }
 
-    public void endScreen(){
-        game.setScreen(new EndScreen(game));
+    public void endScreen(int score,int lines) {
+        game.setScreen(new EndScreen(game,score,lines));
         this.dispose();
     }
 
@@ -58,5 +62,9 @@ public class TetroMingasGame extends ScreenAdapter {
     public void dispose() {
         board.dispose();
 
+    }
+
+    public void setUpdateTimerLimit(float updateTimerLimit){
+        this.updateTimerLimit=updateTimerLimit;
     }
 }

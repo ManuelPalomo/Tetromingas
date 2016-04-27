@@ -12,6 +12,7 @@ public class TextSize {
     }
 
     public float getHeight() {
+
         return layout.height;
     }
 

@@ -7,14 +7,14 @@ import com.palomorising.board.Board;
 public class GameInputHandler extends InputAdapter {
     private Board board;
 
-    public GameInputHandler(Board board){
+    public GameInputHandler(Board board) {
         super();
-        this.board=board;
+        this.board = board;
     }
 
     @Override
-    public boolean keyDown(int keycode){
-        switch (keycode){
+    public boolean keyDown(int keycode) {
+        switch (keycode) {
             case Input.Keys.RIGHT:
                 board.moveRight();
                 break;
@@ -32,5 +32,6 @@ public class GameInputHandler extends InputAdapter {
         }
         return true;
     }
+
 
 }

@@ -10,15 +10,15 @@ public class TetroMingas extends Game {
     public SpriteBatch batch;
     public BitmapFont font;
 
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
         font = new BitmapFont();
         this.setScreen(new MainMenu(this));
-	}
+    }
 
     @Override
-    public void dispose(){
+    public void dispose() {
         batch.dispose();
         font.dispose();
     }
