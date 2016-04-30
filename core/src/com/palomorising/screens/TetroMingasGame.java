@@ -27,7 +27,7 @@ public class TetroMingasGame extends ScreenAdapter {
 
         board = new Board(this, game);
 
-        updateTimerLimit=0.5f;
+        updateTimerLimit = 0.5f;
 
         inputHandler = new GameInputHandler(board);
         Gdx.input.setInputProcessor(inputHandler);
@@ -53,18 +53,13 @@ public class TetroMingasGame extends ScreenAdapter {
 
     }
 
-    public void endScreen(int score,int lines) {
-        game.setScreen(new EndScreen(game,score,lines));
+    public void endScreen(int score, int lines) {
+        game.setScreen(new EndScreen(game, score, lines));
         this.dispose();
     }
 
-    @Override
-    public void dispose() {
-        board.dispose();
-
+    public void setUpdateTimerLimit(float updateTimerLimit) {
+        this.updateTimerLimit = updateTimerLimit;
     }
 
-    public void setUpdateTimerLimit(float updateTimerLimit){
-        this.updateTimerLimit=updateTimerLimit;
-    }
 }

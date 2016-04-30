@@ -1,8 +1,5 @@
 package com.palomorising.board;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.palomorising.TetroMingas;
 import com.palomorising.screens.TetroMingasGame;
@@ -19,11 +16,6 @@ public class Board {
     private TetroMingasGame screen;
     private TetroMingas game;
 
-    private Texture cell;
-    private Texture empty;
-
-    private Sound movement;
-    private Sound  removeLine;
     public int score;
     public int lines;
 
@@ -37,12 +29,6 @@ public class Board {
         this.screen = screen;
         this.game = game;
 
-        cell = new Texture("testCell.png");
-        empty = new Texture("emptyCell.png");
-
-        movement = Gdx.audio.newSound(Gdx.files.internal("movement.mp3"));
-        removeLine = Gdx.audio.newSound(Gdx.files.internal("removeLine.mp3"));
-
         score = 0;
         lines = 0;
 
@@ -52,12 +38,11 @@ public class Board {
     public void render(SpriteBatch batch) {
         batch.begin();
         renderBoard(batch);
-        currentShape.renderShape(batch, cell);
+        currentShape.renderShape(batch, game.assetManager.getTexture("testCell"));
         game.font.draw(game.batch, "Score: " + score, Constants.WIDTH - 100, Constants.HEIGHT - 10);
         game.font.draw(game.batch, "Lines: " + lines, Constants.WIDTH - 100, Constants.HEIGHT - 30);
 
         batch.end();
-
 
     }
 
@@ -65,13 +50,12 @@ public class Board {
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
                 if (grid[x][y] == 1) {
-                    batch.draw(cell, y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
+                    batch.draw(game.assetManager.getTexture("testCell"), y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 } else {
-                    batch.draw(empty, y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
+                    batch.draw(game.assetManager.getTexture("emptyCell"), y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 }
 
             }
-
 
         }
     }
@@ -79,14 +63,14 @@ public class Board {
     public void update() {
         if (!isGoingToCollide()) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
-            movement.play();
+            game.assetManager.getSound("movement").play();
         } else {
             addCurrentPieceToBoard();
             checkFilledLines();
             increaseLevel();
             if (isGameLost()) {
-                screen.endScreen(score,lines);
-                this.dispose();
+                screen.endScreen(score, lines);
+
             }
             currentShape = shapeFactory.getShape();
         }
@@ -143,7 +127,7 @@ public class Board {
     }
 
     private void removeFilledLine(int x) {
-        removeLine.play();
+        game.assetManager.getSound("removeLine").play();
         for (int lines = x; lines < grid.length - 1; lines++) {
             grid[lines] = grid[lines + 1];
         }
@@ -155,13 +139,13 @@ public class Board {
 
     private void increaseLevel() {
 
-        if(score>50 && score < 500){
+        if (score > 50 && score < 500) {
             screen.setUpdateTimerLimit(0.38f);
         }
-        if(score>500 && score < 5000){
+        if (score > 500 && score < 5000) {
             screen.setUpdateTimerLimit(0.3f);
         }
-        if(score>5000){
+        if (score > 5000) {
             screen.setUpdateTimerLimit(0.22f);
         }
 
@@ -217,37 +201,31 @@ public class Board {
     public void moveRight() {
         if (!isGoingToCollideMovement(1)) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX() + 1, currentShape.getUpperLeftCornerY());
-            movement.play();
+            game.assetManager.getSound("movement").play();
         }
     }
 
     public void moveLeft() {
         if (!isGoingToCollideMovement(-1)) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX() - 1, currentShape.getUpperLeftCornerY());
-            movement.play();
+            game.assetManager.getSound("movement").play();
         }
     }
 
     public void moveDown() {
         if (!isGoingToCollide()) {
             currentShape.updateLeftCorner(currentShape.getUpperLeftCornerX(), currentShape.getUpperLeftCornerY() - 1);
-            movement.play();
+            game.assetManager.getSound("movement").play();
             score++;
         }
     }
 
     public void rotateShape() {
         if (!isGoingToCollideRotation()) {
-            movement.play();
+            game.assetManager.getSound("movement").play();
             currentShape.setNextShape();
         }
     }
 
-    public void dispose() {
-        cell.dispose();
-        empty.dispose();
-        movement.dispose();
-        removeLine.dispose();
-    }
 
 }
