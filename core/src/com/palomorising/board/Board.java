@@ -38,7 +38,7 @@ public class Board {
     public void render(SpriteBatch batch) {
         batch.begin();
         renderBoard(batch);
-        currentShape.renderShape(batch, game.assetManager.getTexture("testCell"));
+        currentShape.renderShape(batch, game.assetManager.getTexture(Integer.toString(currentShape.getTextureCode())));
         game.font.draw(game.batch, "Score: " + score, Constants.WIDTH - 100, Constants.HEIGHT - 10);
         game.font.draw(game.batch, "Lines: " + lines, Constants.WIDTH - 100, Constants.HEIGHT - 30);
 
@@ -49,8 +49,8 @@ public class Board {
     private void renderBoard(SpriteBatch batch) {
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
-                if (grid[x][y] == 1) {
-                    batch.draw(game.assetManager.getTexture("testCell"), y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
+                if (grid[x][y] > 0) {
+                    batch.draw(game.assetManager.getTexture(Integer.toString(grid[x][y])), y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 } else {
                     batch.draw(game.assetManager.getTexture("emptyCell"), y * Constants.CELL_WIDTH, x * Constants.CELL_HEIGHT);
                 }
@@ -84,8 +84,8 @@ public class Board {
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
-                if (shape[x][y] == 1) {
-                    if (nextUpperLeftCornerY - x < 0 || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] == 1) {
+                if (shape[x][y] > 0) {
+                    if (nextUpperLeftCornerY - x < 0 || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] >0) {
                         return true;
 
                     }
@@ -100,8 +100,8 @@ public class Board {
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
-                if (shape[x][y] == 1) {
-                    grid[currentShape.getUpperLeftCornerY() - x][currentShape.getUpperLeftCornerX() + y] = 1;
+                if (shape[x][y] > 0) {
+                    grid[currentShape.getUpperLeftCornerY() - x][currentShape.getUpperLeftCornerX() + y] = shape[x][y];
 
                 }
             }
@@ -153,7 +153,7 @@ public class Board {
 
     private boolean isGameLost() {
         for (int x = 0; x < grid[15].length; x++) {
-            if (grid[15][x] == 1) {
+            if (grid[15][x] >0) {
                 return true;
             }
         }
@@ -168,8 +168,8 @@ public class Board {
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
-                if (shape[x][y] == 1) {
-                    if (nextUpperLeftCornerX + y < 0 || nextUpperLeftCornerX + y >= grid[0].length || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] == 1) {
+                if (shape[x][y] >0) {
+                    if (nextUpperLeftCornerX + y < 0 || nextUpperLeftCornerX + y >= grid[0].length || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] >0) {
                         return true;
 
                     }
@@ -187,8 +187,8 @@ public class Board {
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
-                if (shape[x][y] == 1) {
-                    if (nextUpperLeftCornerX + y < 0 || nextUpperLeftCornerX + y >= grid[0].length || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] == 1) {
+                if (shape[x][y] >0) {
+                    if (nextUpperLeftCornerX + y < 0 || nextUpperLeftCornerX + y >= grid[0].length || grid[nextUpperLeftCornerY - x][nextUpperLeftCornerX + y] >0) {
                         return true;
                     }
                 }

@@ -17,7 +17,7 @@ public class ShapeFactory {
 
     public Shape getShape(){
         int randomIndex=MathUtils.random(0,shapes.size()-1);
-        return new Shape(4,15, shapes.get(randomIndex),turnShapes.get(randomIndex));
+        return new Shape(4,15, shapes.get(randomIndex),turnShapes.get(randomIndex),randomIndex+1);
     }
 
     private void fillShapes() {
@@ -43,29 +43,29 @@ public class ShapeFactory {
 
         LinkedList<int[][]> lPieceRotations = new LinkedList<int[][]>();
         int[][] lPiece ={
-                {0,0,1},
-                {1,1,1},
+                {0,0,2},
+                {2,2,2},
                 {0,0,0}
         };
         shapes.add(lPiece);
         lPieceRotations.add(lPiece);
 
         int[][] lPieceRotationOne ={
-                {0,1,0},
-                {0,1,0},
-                {0,1,1}
+                {0,2,0},
+                {0,2,0},
+                {0,2,2}
         };
         lPieceRotations.add(lPieceRotationOne);
         int[][] lPieceRotationTwo ={
                 {0,0,0},
-                {1,1,1},
-                {1,0,0}
+                {2,2,2},
+                {2,0,0}
         };
         lPieceRotations.add(lPieceRotationTwo);
         int[][] lPieceRotationThree ={
-                {1,1,0},
-                {0,1,0},
-                {0,1,0}
+                {2,2,0},
+                {0,2,0},
+                {0,2,0}
         };
         lPieceRotations.add(lPieceRotationThree);
         turnShapes.add(lPieceRotations);
@@ -73,29 +73,29 @@ public class ShapeFactory {
 
         LinkedList<int[][]> jPieceRotations = new LinkedList<int[][]>();
         int[][] jPiece={
-                {1,0,0},
-                {1,1,1},
+                {3,0,0},
+                {3,3,3},
                 {0,0,0}
         };
         shapes.add(jPiece);
         jPieceRotations.add(jPiece);
 
         int[][] jPieceRotationOne={
-                {0,1,1},
-                {0,1,0},
-                {0,1,0}
+                {0,3,3},
+                {0,3,0},
+                {0,3,0}
         };
         jPieceRotations.add(jPieceRotationOne);
         int[][] jPieceRotationTwo={
                 {0,0,0},
-                {1,1,1},
-                {0,0,1}
+                {3,3,3},
+                {0,0,3}
         };
         jPieceRotations.add(jPieceRotationTwo);
         int[][] jPieceRotationThree={
-                {0,1,0},
-                {0,1,0},
-                {1,1,0}
+                {0,3,0},
+                {0,3,0},
+                {3,3,0}
         };
         jPieceRotations.add(jPieceRotationThree);
         turnShapes.add(jPieceRotations);
@@ -103,8 +103,8 @@ public class ShapeFactory {
 
         LinkedList<int[][]> squarePieceRotations = new LinkedList<int[][]>();
         int[][] squarePiece={
-                {1,1},
-                {1,1},
+                {4,4},
+                {4,4},
         };
         shapes.add(squarePiece);
         squarePieceRotations.add(squarePiece);
@@ -113,28 +113,28 @@ public class ShapeFactory {
         LinkedList<int[][]> sPieceRotations = new LinkedList<int[][]>();
 
         int[][] sPiece={
-                {0,1,1},
-                {1,1,0},
+                {0,5,5},
+                {5,5,0},
                 {0,0,0}
         };
         shapes.add(sPiece);
         sPieceRotations.add(sPiece);
         int[][] sPieceRotationOne={
-                {0,1,0},
-                {0,1,1},
-                {0,0,1}
+                {0,5,0},
+                {0,5,5},
+                {0,0,5}
         };
         sPieceRotations.add(sPieceRotationOne);
         int[][] sPieceRotationTwo={
                 {0,0,0},
-                {0,1,1},
-                {1,1,0}
+                {0,5,5},
+                {5,5,0}
         };
         sPieceRotations.add(sPieceRotationTwo);
         int[][] sPieceRotationThree={
-                {1,0,0},
-                {1,1,0},
-                {0,1,0}
+                {5,0,0},
+                {5,5,0},
+                {0,5,0}
         };
         sPieceRotations.add(sPieceRotationThree);
         turnShapes.add(sPieceRotations);
@@ -142,59 +142,59 @@ public class ShapeFactory {
 
         LinkedList<int[][]> tPieceRotations = new LinkedList<int[][]>();
         int[][] tPiece={
-                {0,1,0},
-                {1,1,1},
+                {0,6,0},
+                {6,6,6},
                 {0,0,0}
         };
         shapes.add(tPiece);
         tPieceRotations.add(tPiece);
 
         int[][] tPieceRotationOne={
-                {0,1,0},
-                {0,1,1},
-                {0,1,0}
+                {0,6,0},
+                {0,6,6},
+                {0,6,0}
         };
         tPieceRotations.add(tPieceRotationOne);
         int[][] tPieceRotationTwo={
                 {0,0,0},
-                {1,1,1},
-                {0,1,0}
+                {6,6,6},
+                {0,6,0}
         };
         tPieceRotations.add(tPieceRotationTwo);
         int[][] tPieceRotationThree={
-                {0,1,0},
-                {1,1,0},
-                {0,1,0}
+                {0,6,0},
+                {6,6,0},
+                {0,6,0}
         };
         tPieceRotations.add(tPieceRotationThree);
         turnShapes.add((tPieceRotations));
 
         LinkedList<int[][]> zPieceRotations = new LinkedList<int[][]>();
         int[][] zPiece={
-                {1,1,0},
-                {0,1,1},
+                {7,7,0},
+                {0,7,7},
                 {0,0,0}
         };
         shapes.add(zPiece);
         zPieceRotations.add(zPiece);
 
         int[][] zPieceRotationOne={
-                {0,0,1},
-                {0,1,1},
-                {0,1,0}
+                {0,0,7},
+                {0,7,7},
+                {0,7,0}
         };
         zPieceRotations.add(zPieceRotationOne);
 
         int[][] zPieceRotationTwo={
                 {0,0,0},
-                {0,1,1},
-                {1,1,0}
+                {0,7,7},
+                {7,7,0}
         };
         zPieceRotations.add(zPieceRotationTwo);
         int[][] zPieceRotationThree={
-                {0,1,0},
-                {1,1,0},
-                {1,0,0}
+                {0,7,0},
+                {7,7,0},
+                {7,0,0}
         };
         zPieceRotations.add(zPieceRotationThree);
         turnShapes.add(zPieceRotations);

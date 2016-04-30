@@ -20,8 +20,14 @@ public class AssetManager {
     }
 
     private void loadTextures() {
+        textures.put("1", new Texture("orangeCell.png"));
+        textures.put("2", new Texture("redCell.png"));
+        textures.put("3", new Texture("blueCell.png"));
+        textures.put("4", new Texture("purpleCell.png"));
+        textures.put("5", new Texture("greenCell.png"));
+        textures.put("6", new Texture("yellowCell.png"));
+        textures.put("7", new Texture("yellowCell.png"));
         textures.put("emptyCell", new Texture("emptyCell.png"));
-        textures.put("testCell", new Texture("testCell.png"));
         textures.put("splash", new Texture("splash.png"));
         textures.put("gameOver", new Texture("gameOver.png"));
     }

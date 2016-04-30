@@ -13,18 +13,20 @@ public class Shape {
     private int[][] shape;
     private LinkedList<int[][]> turnShapes;
     private int actualTurnShape;
+    private int textureCode;
 
-    public Shape(int upperLeftCornerX, int upperLeftCornerY, int[][] shape, LinkedList<int[][]> turnShapes) {
+    public Shape(int upperLeftCornerX, int upperLeftCornerY, int[][] shape, LinkedList<int[][]> turnShapes, int textureCode) {
         this.upperLeftCornerX = upperLeftCornerX;
         this.upperLeftCornerY = upperLeftCornerY;
         this.shape = shape;
         this.turnShapes = turnShapes;
         this.actualTurnShape = 0;
+        this.textureCode = textureCode;
     }
 
     public int[][] getNextTurnShape() {
-        int nextShape=actualTurnShape+1;
-        if (nextShape > turnShapes.size()-1) {
+        int nextShape = actualTurnShape + 1;
+        if (nextShape > turnShapes.size() - 1) {
             nextShape = 0;
         }
         return turnShapes.get(nextShape);
@@ -53,7 +55,7 @@ public class Shape {
 
         for (int x = 0; x < shape.length; x++) {
             for (int y = 0; y < shape[x].length; y++) {
-                if (shape[x][y] == 1) {
+                if (shape[x][y] > 0) {
                     batch.draw(cell, xPos, yPos);
                 }
                 xPos += Constants.CELL_WIDTH;
@@ -63,12 +65,16 @@ public class Shape {
         }
     }
 
+    public int getTextureCode() {
+        return textureCode;
+    }
+
     public void setNextShape() {
         actualTurnShape++;
-        if (actualTurnShape > turnShapes.size()-1) {
+        if (actualTurnShape > turnShapes.size() - 1) {
             actualTurnShape = 0;
         }
-        this.shape=turnShapes.get(actualTurnShape);
+        this.shape = turnShapes.get(actualTurnShape);
     }
 
 }
